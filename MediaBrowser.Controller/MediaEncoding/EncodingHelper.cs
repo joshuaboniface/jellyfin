@@ -2391,6 +2391,15 @@ namespace MediaBrowser.Controller.MediaEncoding
                 format = " -f mp4 -movflags frag_keyframe+empty_moov";
             }
 
+            // Fixes a bug [#1148] whereby direct stream (?)/Chromecast playback with VAAPI would fail to transcode
+            // with error "Could not write header for output file #0 (incorrect codec parameters ?): Invalid data found when processing input"
+            if (string.Equals(Path.GetExtension(outputPath), ".mkv", StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(encodingOptions.HardwareAccelerationType, "vaapi", StringComparison.OrdinalIgnoreCase) &&
+                state.BaseRequest.Context == EncodingContext.Streaming)
+            {
+                format = " -f mpegts";
+            }
+
             var threads = GetNumberOfThreads(state, encodingOptions, videoCodec);
 
             var inputModifier = GetInputModifier(state, encodingOptions);
