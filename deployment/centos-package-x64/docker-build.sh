@@ -10,7 +10,7 @@ pushd ${SOURCE_DIR}
 
 # Build RPM
 make -f .copr/Makefile srpm outdir=/root/rpmbuild/SRPMS
-rpmbuild --recompile /root/rpmbuild/SRPMS/jellyfin-*.src.rpm
+rpmbuild --rebuild -bb /root/rpmbuild/SRPMS/jellyfin-*.src.rpm
 
 # Move the artifacts out
 mkdir -p ${ARTIFACT_DIR}/rpm
