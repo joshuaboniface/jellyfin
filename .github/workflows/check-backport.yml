@@ -24,7 +24,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.issue.pull_request.id }}
           body: |
             Running backport tests
           reactions: eyes
