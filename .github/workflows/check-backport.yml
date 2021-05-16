@@ -47,6 +47,7 @@ jobs:
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           git pull --rebase
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 
+        id: run_tests
 
       - name: Notify with result
         uses: peter-evans/create-or-update-comment@v1.4.5
@@ -55,5 +56,5 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
             Check build log:
-            ${{ steps.build.outputs.build-log }}
+            ${{ join(steps.run_tests.outputs.*, '\n') }}
           reactions: hooray
