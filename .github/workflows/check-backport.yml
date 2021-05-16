@@ -49,7 +49,7 @@ jobs:
           echo ::set-output name=branch::$stable_branch
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           git pull --rebase
-          body="$( git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} )"
+          body="$( git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 2>&1 )"
           echo ::set-output name=body::$body
 
       - name: Notify with result success
