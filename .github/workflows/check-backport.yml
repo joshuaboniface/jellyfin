@@ -39,3 +39,12 @@ jobs:
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           git pull --rebase
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 
+
+      - name: Notify with result
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        if: ${{ github.event.comment != null }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Check build log:
+            ${{ steps.build.outputs.build-log }}
