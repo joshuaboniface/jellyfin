@@ -35,6 +35,8 @@ jobs:
           git merge --no-ff ${CURRENT_BRANCH}
           MERGE_COMMIT_HASH=$( git log -q | head -1 | awk '{ print $2 }' )
           echo ${MERGE_COMMIT_HASH}
+          git fetch --all
+          git branch
           CURRENT_STABLE=$( git branch | grep release | sort -rV | head -1 )
           echo ${CURRENT_STABLE}
           git checkout -t origin/${CURRENT_STABLE} -b n${CURRENT_STABLE}
