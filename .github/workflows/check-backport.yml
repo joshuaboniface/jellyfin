@@ -57,8 +57,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
-            Build log
-            ${{ steps.run_tests.outputs.body }}
+
+            Build log:
+            ${{ join(steps.run_tests.outputs.*, '\n') }}
           reactions: hooray
 
       - name: Notify with result failure
@@ -68,6 +69,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
-            Build log
-            ${{ steps.run_tests.outputs.body }}
+
+            Build log:
+            ${{ join(steps.run_tests.outputs.*, '\n') }}
           reactions: confused
