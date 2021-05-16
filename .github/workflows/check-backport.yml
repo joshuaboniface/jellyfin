@@ -27,7 +27,6 @@ jobs:
           issue-number: 115
           body: |
             Running backport tests
-          reactions: eyes
 
       - name: Perform test backport
         id: run_tests
@@ -49,7 +48,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.comment_running.outputs.comment-id }}
+          issue-number: 115
           body: |
             Build log
             ${{ steps.run_tests.outputs.body }}
