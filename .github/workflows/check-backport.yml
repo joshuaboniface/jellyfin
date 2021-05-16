@@ -17,7 +17,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: '+1'
+          reactions: eyes
 
       - name: Notify as running
         id: comment_running
