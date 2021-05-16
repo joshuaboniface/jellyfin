@@ -45,10 +45,12 @@ jobs:
           MERGE_COMMIT_HASH=$( git log -q -1 | head -1 | awk '{ print $2 }' )
           git fetch --all
           CURRENT_STABLE=$( git branch -r | grep 'origin/release' | sort -rV | head -1 | awk -F '/' '{ print $NF }' )
-          echo "Current stable branch: ${CURRENT_STABLE}"
+          stable_branch="Current stable branch: ${CURRENT_STABLE}"
+          echo ::set-output name=body::$stable_branch
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           git pull --rebase
-          git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 
+          body="$( git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} )"
+          echo ::set-output name=body::$body
 
       - name: Notify with result success
         uses: peter-evans/create-or-update-comment@v1.4.5
@@ -58,7 +60,7 @@ jobs:
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
             Build log:
-            ${{ steps.run_tests }}
+            ${{ steps.run_tests.outputs.body }}
           reactions: hooray
 
       - name: Notify with result failure
@@ -69,5 +71,5 @@ jobs:
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
             Build log:
-            ${{ steps.run_tests }}
+            ${{ steps.run_tests.outputs.body }}
           reactions: confused
