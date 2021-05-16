@@ -19,6 +19,14 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            This comment was written by a bot!
+          reactions: rocket
+
       - name: Checkout the latest code
         uses: actions/checkout@v2
         with:
@@ -44,7 +52,8 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
             Check build log:
             ${{ steps.build.outputs.build-log }}
+          reactions: hooray
