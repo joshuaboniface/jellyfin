@@ -50,8 +50,9 @@ jobs:
           git pull --rebase
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 
 
-      - name: Notify with result
+      - name: Notify with result success
         uses: peter-evans/create-or-update-comment@v1.4.5
+        if: ${{ success() }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 115
@@ -59,3 +60,14 @@ jobs:
             Build log
             ${{ steps.run_tests.outputs.body }}
           reactions: hooray
+
+      - name: Notify with result failure
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        if: ${{ failure() }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 115
+          body: |
+            Build log
+            ${{ steps.run_tests.outputs.body }}
+          reactions: confused
