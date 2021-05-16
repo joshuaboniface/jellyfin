@@ -45,6 +45,7 @@ jobs:
         if: ${{ github.event.comment != null }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             Check build log:
             ${{ steps.build.outputs.build-log }}
