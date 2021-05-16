@@ -24,6 +24,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: 115
           body: |
             Running backport tests
           reactions: eyes
@@ -48,6 +49,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
             Build log
             ${{ steps.run_tests.outputs.body }}
