@@ -19,6 +19,12 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: eyes
 
+      - name: Checkout the latest code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.JF_BOT_TOKEN }}
+          fetch-depth: 0
+
       - name: Notify as running
         id: comment_running
         uses: peter-evans/create-or-update-comment@v1.4.5
