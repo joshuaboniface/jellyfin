@@ -32,7 +32,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 115
           body: |
-            Running backport tests
+            Running backport tests...
 
       - name: Perform test backport
         id: run_tests
@@ -57,9 +57,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
-
             Build log:
-            ${{ join(steps.run_tests.outputs.*, '\n') }}
+            ${{ steps.run_tests }}
           reactions: hooray
 
       - name: Notify with result failure
@@ -69,7 +68,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
-
             Build log:
-            ${{ join(steps.run_tests.outputs.*, '\n') }}
+            ${{ steps.run_tests }}
           reactions: confused
