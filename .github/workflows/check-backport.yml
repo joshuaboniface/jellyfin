@@ -33,10 +33,12 @@ jobs:
           echo ${CURRENT_BRANCH}
           git checkout master
           git merge --no-ff ${CURRENT_BRANCH}
-          MERGE_COMMIT_HASH=$( git log -q | head -1 | awk '{ print $2 }' )
+          MERGE_COMMIT_HASH=$( git log -q -1 | head -1 | awk '{ print $2 }' )
           echo ${MERGE_COMMIT_HASH}
           git fetch --all
           CURRENT_STABLE=$( git branch -r | grep 'origin/release' | sort -rV | head -1 | awk -F '/' '{ print $NF }' )
           echo "Current stable branch: ${CURRENT_STABLE}"
           git checkout -b ${CURRENT_STABLE}
+          git pull --rebase
+          git log -q -1
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 
