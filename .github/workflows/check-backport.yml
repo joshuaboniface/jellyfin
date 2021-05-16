@@ -11,15 +11,7 @@ jobs:
     if: ${{ ( github.event.issue.pull_request != '' && contains(github.event.comment.body, '@jellyfin-bot check backport') ) || github.event.label.name == 'stable backport' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Notify as seen
-        uses: peter-evans/create-or-update-comment@v1.4.5
-        if: ${{ github.event.comment != null }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ github.event.comment.id }}
-          reactions: '+1'
-
-      - name: Create comment
+      - name: Create comment notification
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -27,14 +19,6 @@ jobs:
           body: |
             This comment was written by a bot!
           reactions: rocket
-
-      - name: Notify as seen
-        uses: peter-evans/create-or-update-comment@v1.4.5
-        if: ${{ github.event.comment != null }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ github.event.comment.id }}
-          reactions: eyes
 
       - name: Checkout the latest code
         uses: actions/checkout@v2
@@ -62,8 +46,9 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Check build log:
+            This comment was written by a bot!
+            Check build log
             ${{ steps.run_tests.outputs.body }}
           reactions: hooray
