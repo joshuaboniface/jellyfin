@@ -59,7 +59,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
-            Cherry-pick log:
+            ${{ steps.run_tests.outputs.branch }}
             ${{ steps.run_tests.outputs.body }}
           reactions: hooray
 
@@ -70,7 +70,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
-            Cherry-pick log:
             ${{ steps.run_tests.outputs.branch }}
             ${{ steps.run_tests.outputs.body }}
           reactions: confused
