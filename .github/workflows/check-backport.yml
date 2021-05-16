@@ -24,7 +24,31 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.issue.pull_request.id }}
           body: |
             Running backport tests
           reactions: eyes
+
+      - name: Perform test backport
+        id: run_tests
+        run: |
+          git config --global user.name "Jellyfin Bot"
+          git config --global user.email "team@jellyfin.org"
+          CURRENT_BRANCH=$( git symbolic-ref --short HEAD )
+          git checkout master
+          git merge --no-ff ${CURRENT_BRANCH}
+          MERGE_COMMIT_HASH=$( git log -q -1 | head -1 | awk '{ print $2 }' )
+          git fetch --all
+          CURRENT_STABLE=$( git branch -r | grep 'origin/release' | sort -rV | head -1 | awk -F '/' '{ print $NF }' )
+          echo "Current stable branch: ${CURRENT_STABLE}"
+          git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
+          git pull --rebase
+          git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 
+
+      - name: Notify with result
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Build log
+            ${{ steps.run_tests.outputs.body }}
+          reactions: hooray
