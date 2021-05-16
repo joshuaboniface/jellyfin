@@ -22,6 +22,7 @@ jobs:
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             This comment was written by a bot!
@@ -56,5 +57,5 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           body: |
             Check build log:
-            ${{ join(steps.run_tests.outputs.*, '\n') }}
+            ${{ steps.run_tests.outputs.body }}
           reactions: hooray
