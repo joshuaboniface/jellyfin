@@ -37,7 +37,8 @@ jobs:
           echo ${MERGE_COMMIT_HASH}
           git fetch --all
           git branch
-          CURRENT_STABLE=$( git branch | grep release | sort -rV | head -1 )
+          git branch -r
+          CURRENT_STABLE=$( git branch -r | grep release | sort -rV | head -1 )
           echo ${CURRENT_STABLE}
           git checkout -t origin/${CURRENT_STABLE} -b n${CURRENT_STABLE}
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH}
