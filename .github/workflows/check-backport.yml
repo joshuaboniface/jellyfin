@@ -15,7 +15,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1.4.5
         if: ${{ github.event.comment != null }}
         with:
-          token: ${{ secrets.JF_BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
