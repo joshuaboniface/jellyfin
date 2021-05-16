@@ -20,13 +20,21 @@ jobs:
           reactions: '+1'
 
       - name: Create comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             This comment was written by a bot!
           reactions: rocket
+
+      - name: Notify as seen
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        if: ${{ github.event.comment != null }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          comment-id: ${{ github.event.comment.id }}
+          reactions: eyes
 
       - name: Checkout the latest code
         uses: actions/checkout@v2
