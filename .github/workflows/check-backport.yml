@@ -47,12 +47,12 @@ jobs:
           CURRENT_STABLE=$( git branch -r | grep 'origin/release' | sort -rV | head -1 | awk -F '/' '{ print $NF }' )
           stable_branch="Current stable branch: ${CURRENT_STABLE}"
           echo ${stable_branch}
-          echo ::set-output name=branch::${table_branch}
+          echo ::set-output name=branch::${stable_branch}
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           git pull --rebase
-          body="$( git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 2>&1 )"
-          echo ${body}
-          echo ::set-output name=body::$body
+          output="$( git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 2>&1 )"
+          echo ${output}
+          echo ::set-output name=output::$output
 
       - name: Notify with result success
         uses: peter-evans/create-or-update-comment@v1.4.5
@@ -62,7 +62,7 @@ jobs:
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
             ${{ steps.run_tests.outputs.branch }}
-            ${{ steps.run_tests.outputs.body }}
+            ${{ steps.run_tests.outputs.output }}
           reactions: hooray
 
       - name: Notify with result failure
@@ -73,5 +73,5 @@ jobs:
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
           body: |
             ${{ steps.run_tests.outputs.branch }}
-            ${{ steps.run_tests.outputs.body }}
+            ${{ steps.run_tests.outputs.output }}
           reactions: confused
