@@ -52,8 +52,8 @@ jobs:
           set +o errexit
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt
           retcode=$?
-          cat output.txt
-          output="$( cat output.txt )"
+          cat output.txt | grep -v 'hint:'
+          output="$( grep -v 'hint:'  output.txt )"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}" 
