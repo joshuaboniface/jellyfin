@@ -45,7 +45,7 @@ jobs:
           MERGE_COMMIT_HASH=$( git log -q -1 | head -1 | awk '{ print $2 }' )
           git fetch --all
           CURRENT_STABLE=$( git branch -r | grep 'origin/release' | sort -rV | head -1 | awk -F '/' '{ print $NF }' )
-          stable_branch="Current stable branch: ${CURRENT_STABLE}"
+          stable_branch="Current stable release branch: ${CURRENT_STABLE}"
           echo ${stable_branch}
           echo ::set-output name=branch::${stable_branch}
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
