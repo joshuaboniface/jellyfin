@@ -57,9 +57,9 @@ jobs:
           retcode=$?
           cat output.txt
           output="$( cat output.txt )"
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}" 
+          output="${output//'%'/'%25'}"
+          output="${output//$'\n'/'%0A'}"
+          output="${output//$'\r'/'%0D'}" 
           echo ::set-output name=output::$output
           exit ${retcode}
 
