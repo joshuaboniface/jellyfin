@@ -28,6 +28,7 @@ jobs:
       - name: Notify as running
         id: comment_running
         uses: peter-evans/create-or-update-comment@v1.4.5
+        if: ${{ github.event.comment != null }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: 115
