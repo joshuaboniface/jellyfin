@@ -37,6 +37,7 @@ jobs:
       - name: Perform test backport
         id: run_tests
         run: |
+          set -o xtrace
           git config --global user.name "Jellyfin Bot"
           git config --global user.email "team@jellyfin.org"
           CURRENT_BRANCH=$( git symbolic-ref --short HEAD )
