@@ -37,6 +37,7 @@ jobs:
       - name: Perform test backport
         id: run_tests
         run: |
+          set +o errexit
           git config --global user.name "Jellyfin Bot"
           git config --global user.email "team@jellyfin.org"
           CURRENT_BRANCH=$( git symbolic-ref --short HEAD )
@@ -49,7 +50,6 @@ jobs:
           echo ${stable_branch}
           echo ::set-output name=branch::${stable_branch}
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
-          set +o errexit
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt
           retcode=$?
           cat output.txt | grep -v 'hint:'
