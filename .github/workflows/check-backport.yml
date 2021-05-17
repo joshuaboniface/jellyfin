@@ -46,10 +46,12 @@ jobs:
           git fetch --all
           CURRENT_STABLE=$( git branch -r | grep 'origin/release' | sort -rV | head -1 | awk -F '/' '{ print $NF }' )
           stable_branch="Current stable branch: ${CURRENT_STABLE}"
-          echo ::set-output name=branch::$stable_branch
+          echo ${stable_branch}
+          echo ::set-output name=branch::${table_branch}
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           git pull --rebase
           body="$( git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} 2>&1 )"
+          echo ${body}
           echo ::set-output name=body::$body
 
       - name: Notify with result success
