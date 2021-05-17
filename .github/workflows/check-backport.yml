@@ -62,7 +62,7 @@ jobs:
 
       - name: Notify with result success
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: ${{ success() }}
+        if: ${{ github.event.comment != null && success() }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
@@ -77,7 +77,7 @@ jobs:
 
       - name: Notify with result failure
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: ${{ failure() }}
+        if: ${{ github.event.comment != null && failure() }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.comment_running.outputs.comment-id }}
