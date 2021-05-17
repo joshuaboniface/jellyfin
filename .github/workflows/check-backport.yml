@@ -48,7 +48,9 @@ jobs:
           stable_branch="Current stable branch: ${CURRENT_STABLE}"
           echo ${stable_branch}
           echo ::set-output name=branch::${stable_branch}
+          echo $?
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
+          echo $?
           git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt
           echo $?
           cat output.txt
