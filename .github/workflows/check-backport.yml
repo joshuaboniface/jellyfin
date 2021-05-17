@@ -31,7 +31,7 @@ jobs:
         if: ${{ github.event.comment != null }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.comment.number }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             Running backport tests...
 
