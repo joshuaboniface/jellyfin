@@ -52,12 +52,16 @@ jobs:
           echo $?
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           echo $?
-          git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt || true
-          echo $?
+          set +o errexit
+          git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt
+          retcode=$?
           cat output.txt
           output="$( cat output.txt )"
-          echo ${output}
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}" 
           echo ::set-output name=output::$output
+          exit ${retcode}
 
       - name: Notify with result success
         uses: peter-evans/create-or-update-comment@v1.4.5
