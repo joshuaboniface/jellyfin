@@ -52,7 +52,7 @@ jobs:
           echo $?
           git checkout -t origin/${CURRENT_STABLE} -b ${CURRENT_STABLE}
           echo $?
-          git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt
+          git cherry-pick -sx -m1 ${MERGE_COMMIT_HASH} &>output.txt || true
           echo $?
           cat output.txt
           output="$( cat output.txt )"
